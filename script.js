@@ -110,8 +110,11 @@ class Snake {
       const tail = this.body.pop();
       const tailIndex = tail.y * this.gameField.columns + tail.x;
       const tailCell = document.getElementById("gameField").children[tailIndex];
-      tailCell.classList.remove("snake", "snakeInnerSquare");
+      tailCell.classList.remove("snake");
+      const innerSquare = tailCell.children[0];
+      innerSquare.classList.remove("snakeInnerSquare");
     }
+
     this.snakeRendering();
   }
 

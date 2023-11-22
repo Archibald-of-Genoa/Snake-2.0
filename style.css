@@ -50,13 +50,12 @@ body {
 }
 
 .innerSquare {
-    width: 16px;
-    height: 16px;
-    border: 2px solid #9ead86;
-    margin: 1px;
-    background-color: #879372;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #9ead86;
+  margin: 1px;
+  background-color: #879372;
 }
-
 
 .scoresContainer {
   display: flex;
@@ -113,5 +112,4 @@ body {
 
 .snakeInnerSquare {
   background-color: #000;
-
 }
