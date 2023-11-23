@@ -40,15 +40,13 @@ class Snake {
     this._direction = "right";
     this._snakeRendering();
     this._score = 0;
-    this._highScore =
-      localStorage.getItem("snakeHighScore") || 0;
+    this._highScore = localStorage.getItem("snakeHighScore") || 0;
     this._updateScoreDisplay();
   }
 
   _isEatingApple(applePosition) {
     const head = this._body[0];
-    const isEating =
-      head.x === applePosition.x && head.y === applePosition.y;
+    const isEating = head.x === applePosition.x && head.y === applePosition.y;
 
     if (isEating) {
       this._score += 10;
@@ -77,13 +75,9 @@ class Snake {
     this._clearSnakeFromField();
 
     this._body.forEach((segment, index) => {
-      const cellIndex =
-        segment.y * this._gameField.columns + segment.x;
+      const cellIndex = segment.y * this._gameField.columns + segment.x;
 
-      if (
-        cellIndex >= 0 &&
-        cellIndex < fieldElement.children.length
-      ) {
+      if (cellIndex >= 0 && cellIndex < fieldElement.children.length) {
         const cell = fieldElement.children[cellIndex];
         cell.classList.add("snake");
         const innerSquare = cell.children[0];
@@ -115,10 +109,8 @@ class Snake {
     const head = this._body[0];
 
     if (this._checkCollisionWithSelf()) {
-      alert(
-        "Опаньки!!! Кажется, змей укусил сам себя за яйку =( "
-      );
-      runAnimation();
+      alert("Опаньки!!! Кажется, змей укусил сам себя за яйку =( ");
+      _runAnimation();
       this._resetGame();
       return;
     }
@@ -163,12 +155,9 @@ class Snake {
     } else {
       if (this._body.length > 1) {
         const tail = this._body.pop();
-        const tailIndex =
-          tail.y * this._gameField.columns + tail.x;
+        const tailIndex = tail.y * this._gameField.columns + tail.x;
         const tailCell =
-          document.getElementById("gameField").children[
-            tailIndex
-          ];
+          document.getElementById("gameField").children[tailIndex];
         tailCell.classList.remove("snake");
         tailCell.classList.remove("apple");
       }
@@ -197,10 +186,7 @@ class Snake {
   }
 
   _listeningForKeydown() {
-    document.addEventListener(
-      "keydown",
-      this._handleKeyDown.bind(this)
-    );
+    document.addEventListener("keydown", this._handleKeyDown.bind(this));
   }
 
   _handleKeyDown(event) {
@@ -253,9 +239,7 @@ class Apple {
 
   _isAppleOnSnake(position) {
     return snake._body.some((segment) => {
-      return (
-        segment.x === position.x && segment.y === position.y
-      );
+      return segment.x === position.x && segment.y === position.y;
     });
   }
 
@@ -288,14 +272,16 @@ setInterval(() => {
   snake._moving();
 }, 100);
 
-document.getElementById("resetBtn").addEventListener("click", _handleResetClick);
+document
+  .getElementById("resetBtn")
+  .addEventListener("click", _handleResetClick);
 
-async function _handleResetClick() {
-  await _runAnimation();
-  await new Promise((resolve) => setTimeout(resolve, 300));
-  apple._clearAppleFromField();
-  snake._resetGame();
-}
+  async function _handleResetClick() {
+    await _runAnimation();
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    apple._clearAppleFromField();
+    snake._resetGame();
+  }
 
 async function _runAnimation() {
   const cells = document.querySelectorAll(".outerSquare");
