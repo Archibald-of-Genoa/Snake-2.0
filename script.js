@@ -70,15 +70,24 @@ class Snake {
     }
   }
 
+  checkCollisionWithSelf() {
+    const head = this.body[0];
+    for (let i = 1; i < this.body.length; i++) {
+      if (head.x === this.body[i].x && head.y === this.body[i].y) {
+        apple.clearAppleFromField();
+        return true;
+      }
+    }
+    return false;
+  }
+
   moving() {
     const head = this.body[0];
 
-    for (let i = 1; i < this.body.length; i++) {
-      if (head.x === this.body[i].x && head.y === this.body[i].y) {
-        alert('Иди спать, Андрей!!!');
-        this.clearSnakeFromField();
-        return
-      }
+    if (this.checkCollisionWithSelf()) {
+      alert("Опаньки!!! Кажется, змей укусил сам себя за яйку =( ");
+      this.resetGame();
+      return;
     }
 
     let newHead;
@@ -115,14 +124,15 @@ class Snake {
     this.body.unshift(newHead);
 
     if (this.isEatingApple(apple.position)) {
-      // Если змея съела яблоко, добавьте новый сегмент в конец тела змеи
-      apple.position = apple.generateApplePosition(); // Генерируем новое положение яблока
-      apple.appleRendering(); // Отрисовываем новое яблоко
+      apple.clearAppleFromField();
+      apple.position = apple.generateApplePosition(); 
+      apple.appleRendering(); 
     } else {
       if (this.body.length > 1) {
         const tail = this.body.pop();
         const tailIndex = tail.y * this.gameField.columns + tail.x;
-        const tailCell = document.getElementById("gameField").children[tailIndex];
+        const tailCell =
+          document.getElementById("gameField").children[tailIndex];
         tailCell.classList.remove("snake");
         tailCell.classList.remove("apple");
       }
@@ -134,6 +144,22 @@ class Snake {
   isEatingApple(applePosition) {
     const head = this.body[0];
     return head.x === applePosition.x && head.y === applePosition.y;
+  }
+
+  resetGame() {
+    this.clearSnakeFromField();
+
+    const centerX = this.gameField.center.x;
+    const centerY = this.gameField.center.y;
+    this.body = [
+      { x: centerX, y: centerY },
+      { x: centerX - 1, y: centerY },
+    ];
+    this.direction = "right";
+
+    apple.position = apple.generateApplePosition();
+    this.snakeRendering();
+    apple.appleRendering();
   }
 
   listeningForKeydown() {
@@ -199,6 +225,13 @@ class Apple {
     const cellIndex = this.position.y * gameField.columns + this.position.x;
     const cell = fieldElement.children[cellIndex];
     cell.classList.add("apple");
+  }
+
+  clearAppleFromField() {
+    const fieldElement = document.getElementById("gameField");
+    const cellIndex = this.position.y * gameField.columns + this.position.x;
+    const cell = fieldElement.children[cellIndex];
+    cell.classList.remove("apple");
   }
 }
 
