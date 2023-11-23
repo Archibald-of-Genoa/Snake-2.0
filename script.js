@@ -44,6 +44,37 @@ class Snake {
     this.direction = "right";
 
     this.snakeRendering();
+
+    this.score = 0;
+    this.highScore = localStorage.getItem("snakeHighScore") || 0;
+
+    this.updateScoreDisplay();
+  }
+
+  isEatingApple(applePosition) {
+    const head = this.body[0];
+    const isEating = head.x === applePosition.x && head.y === applePosition.y;
+
+    if (isEating) {
+      this.score += 10;
+      if (this.score > this.highScore) {
+        this.highScore = this.score;
+        localStorage.setItem("snakeHighScore", this.highScore);
+      }
+      this.updateScoreDisplay();
+    }
+
+    return isEating;
+  }
+
+  updateScoreDisplay() {
+    const scoreNums = document.querySelector(".scoreNums");
+    const hiScoreNums = document.querySelector(".hiScoreNums");
+
+    if (scoreNums && hiScoreNums) {
+      scoreNums.textContent = this.score;
+      hiScoreNums.textContent = this.highScore;
+    }
   }
 
   snakeRendering() {
@@ -144,7 +175,18 @@ class Snake {
 
   isEatingApple(applePosition) {
     const head = this.body[0];
-    return head.x === applePosition.x && head.y === applePosition.y;
+    const isEating = head.x === applePosition.x && head.y === applePosition.y;
+
+    if (isEating) {
+      this.score += 10;
+      if (this.score > this.highScore) {
+        this.highScore = this.score;
+        localStorage.setItem("snakeHighScore", this.highScore);
+      }
+      this.updateScoreDisplay();
+    }
+
+    return isEating;
   }
 
   resetGame() {
@@ -157,6 +199,9 @@ class Snake {
       { x: centerX - 1, y: centerY },
     ];
     this.direction = "right";
+
+    this.score = 0;
+    this.updateScoreDisplay();
 
     apple.position = apple.generateApplePosition();
     this.snakeRendering();
@@ -298,7 +343,6 @@ async function runAnimation() {
     if (currentRow < 0) {
       clearInterval(intervalId);
 
-      // Обратная реакция: начинаем обратное окрашивание, начиная с самого верхнего ряда
       let resetRowInterval = setInterval(() => {
         if (currentRow >= 0 && currentRow < rows) {
           resetRow(currentRow);

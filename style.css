@@ -74,7 +74,7 @@ body {
   justify-content: center;
 }
 
-.scoreNums {
+.scoreNums, .hiScoreNums {
   font-size: 2.3rem;
   display: flex;
   justify-content: end;
