@@ -116,3 +116,10 @@ body {
   background-color: #000;
 }
 
+.bottomRow, .bottomRow * {
+  background-color: #000; /* Любой цвет, который вы хотите использовать */
+}
+
+.coloringRow, .coloringRow * {
+  background-color: #000; /* Любой цвет, который вы хотите использовать */
+}

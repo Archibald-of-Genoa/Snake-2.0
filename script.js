@@ -246,3 +246,51 @@ apple.appleRendering();
 setInterval(() => {
   snake.moving();
 }, 100);
+
+
+// Добавляем слушатель событий для кнопки resetBtn
+document.getElementById("resetBtn").addEventListener("click", handleResetClick);
+
+// Добавляем слушатель событий для кнопки resetBtn
+document.getElementById("resetBtn").addEventListener("click", handleResetClick);
+
+// Функция, которая будет вызываться при нажатии на кнопку resetBtn
+function handleResetClick() {
+  // Получаем все клетки игрового поля
+  const cells = document.querySelectorAll(".outerSquare");
+
+  // Определяем количество строк и столбцов в игровом поле
+  const rows = gameField.rows;
+  const columns = gameField.columns;
+
+  // Функция для окрашивания ряда
+  function colorRow(rowIndex) {
+    // Индексы клеток текущего ряда
+    const currentRowIndexes = Array.from({ length: columns }, (_, index) => rowIndex * columns + index);
+
+    // Окрашиваем клетки текущего ряда
+    currentRowIndexes.forEach((index) => {
+      cells[index].classList.add("coloringRow"); // Добавляем новый класс для стилизации
+    });
+  }
+
+  // Счетчик для отслеживания текущего ряда
+  let currentRow = rows - 1;
+
+  // Устанавливаем интервал для окрашивания рядов
+  const intervalId = setInterval(() => {
+    // Очищаем предыдущий ряд
+
+    // Окрашиваем текущий ряд
+    colorRow(currentRow);
+
+    // Уменьшаем счетчик ряда
+    currentRow--;
+
+    // Проверяем, достигнут ли первый ряд
+    if (currentRow < 0) {
+      clearInterval(intervalId); // Останавливаем интервал
+      snake.resetGame(); // Ваш код сброса игры
+    }
+  }, 5); // Интервал 0,2 секунды
+}
