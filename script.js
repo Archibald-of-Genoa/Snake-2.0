@@ -249,20 +249,26 @@ setInterval(() => {
 
 document.getElementById("resetBtn").addEventListener("click", handleResetClick);
 
-function handleResetClick() {
+async function handleResetClick() {
+  // Запускаем анимацию
+  await runAnimation();
+
+  // Даем задержку перед сбросом яблока и игры
+  await new Promise(resolve => setTimeout(resolve, 300));
+
+  // Теперь сбрасываем яблоко и игру
   apple.clearAppleFromField();
   snake.resetGame();
+}
 
-
+async function runAnimation() {
   const cells = document.querySelectorAll(".outerSquare");
-
   const rows = gameField.rows;
-  const columns = gameField.columns;
 
   function colorRow(rowIndex) {
     const currentRowIndexes = Array.from(
-      { length: columns },
-      (_, index) => rowIndex * columns + index
+      { length: gameField.columns },
+      (_, index) => rowIndex * gameField.columns + index
     );
 
     currentRowIndexes.forEach((index) => {
@@ -272,8 +278,8 @@ function handleResetClick() {
 
   function resetRow(rowIndex) {
     const currentRowIndexes = Array.from(
-      { length: columns },
-      (_, index) => rowIndex * columns + index
+      { length: gameField.columns },
+      (_, index) => rowIndex * gameField.columns + index
     );
 
     currentRowIndexes.forEach((index) => {
@@ -298,11 +304,9 @@ function handleResetClick() {
 
         if (currentRow === rows) {
           clearInterval(resetRowInterval);
-
-          // После завершения обратного окрашивания, сброс игры
         }
       }, 5);
     }
   }, 5);
-
 }
+
