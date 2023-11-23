@@ -106,15 +106,26 @@ class Snake {
 
     this.body.unshift(newHead);
 
-    if (this.body.length > 1) {
-      const tail = this.body.pop();
-      const tailIndex = tail.y * this.gameField.columns + tail.x;
-      const tailCell = document.getElementById("gameField").children[tailIndex];
-      tailCell.classList.remove("snake");
-
+    if (this.isEatingApple(apple.position)) {
+      // Если змея съела яблоко, добавьте новый сегмент в конец тела змеи
+      apple.position = apple.generateApplePosition(); // Генерируем новое положение яблока
+      apple.appleRendering(); // Отрисовываем новое яблоко
+    } else {
+      if (this.body.length > 1) {
+        const tail = this.body.pop();
+        const tailIndex = tail.y * this.gameField.columns + tail.x;
+        const tailCell = document.getElementById("gameField").children[tailIndex];
+        tailCell.classList.remove("snake");
+        tailCell.classList.remove("apple");
+      }
     }
 
     this.snakeRendering();
+  }
+
+  isEatingApple(applePosition) {
+    const head = this.body[0];
+    return head.x === applePosition.x && head.y === applePosition.y;
   }
 
   listeningForKeydown() {
@@ -162,13 +173,12 @@ class Apple {
         x: Math.floor(Math.random() * gameField.rows),
         y: Math.floor(Math.random() * gameField.columns),
       };
-  
+
       if (!this.isAppleOnSnake(position)) {
         return position;
       }
     }
   }
-  
 
   isAppleOnSnake(position) {
     return snake.body.some((segment) => {
@@ -194,4 +204,4 @@ apple.appleRendering();
 
 setInterval(() => {
   snake.moving();
-}, 300);
+}, 200);
