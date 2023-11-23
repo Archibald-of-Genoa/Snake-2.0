@@ -106,10 +106,13 @@ body {
   z-index: 1;
 }
 
-.snake {
+.snake, .snake * {
   background-color: #000;
 }
 
-.snakeInnerSquare {
+
+
+.apple, .apple * {
   background-color: #000;
 }
+

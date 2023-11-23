@@ -111,8 +111,7 @@ class Snake {
       const tailIndex = tail.y * this.gameField.columns + tail.x;
       const tailCell = document.getElementById("gameField").children[tailIndex];
       tailCell.classList.remove("snake");
-      const innerSquare = tailCell.children[0];
-      innerSquare.classList.remove("snakeInnerSquare");
+
     }
 
     this.snakeRendering();
@@ -151,10 +150,47 @@ class Snake {
   }
 }
 
+class Apple {
+  constructor(gameField) {
+    this.gameField = gameField;
+    this.position = this.generateApplePosition();
+  }
+
+  generateApplePosition() {
+    while (true) {
+      const position = {
+        x: Math.floor(Math.random() * gameField.rows),
+        y: Math.floor(Math.random() * gameField.columns),
+      };
+  
+      if (!this.isAppleOnSnake(position)) {
+        return position;
+      }
+    }
+  }
+  
+
+  isAppleOnSnake(position) {
+    return snake.body.some((segment) => {
+      return segment.x === position.x && segment.y === position.y;
+    });
+  }
+
+  appleRendering() {
+    const fieldElement = document.getElementById("gameField");
+    const cellIndex = this.position.y * gameField.columns + this.position.x;
+    const cell = fieldElement.children[cellIndex];
+    cell.classList.add("apple");
+  }
+}
+
 const gameField = new GameField(30, 30);
 
 const snake = new Snake(gameField);
 snake.listeningForKeydown();
+
+const apple = new Apple(gameField);
+apple.appleRendering();
 
 setInterval(() => {
   snake.moving();
