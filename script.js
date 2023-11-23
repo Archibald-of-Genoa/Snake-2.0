@@ -134,16 +134,18 @@ class Snake {
         break;
     }
 
-    if (newHead.x < 0) {
-      newHead.x = this._gameField.columns - 1;
-    } else if (newHead.x >= this._gameField.columns) {
-      newHead.x = 0;
-    }
-
-    if (newHead.y < 0) {
-      newHead.y = this._gameField.rows - 1;
-    } else if (newHead.y >= this._gameField.rows) {
-      newHead.y = 0;
+    if (
+      head.x < 0 ||
+      head.x >= this._gameField.columns ||
+      head.y < 0 ||
+      head.y >= this._gameField.rows ||
+      this._checkCollisionWithSelf()
+    ) {
+      alert("Змейка бахнулась об стенку...");
+      _runAnimation();
+      apple._clearAppleFromField();
+      this._resetGame();
+      return;
     }
 
     this._body.unshift(newHead);
