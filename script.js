@@ -86,6 +86,7 @@ class Snake {
 
     if (this.checkCollisionWithSelf()) {
       alert("Опаньки!!! Кажется, змей укусил сам себя за яйку =( ");
+      runAnimation();
       this.resetGame();
       return;
     }
@@ -254,7 +255,7 @@ async function handleResetClick() {
   await runAnimation();
 
   // Даем задержку перед сбросом яблока и игры
-  await new Promise(resolve => setTimeout(resolve, 300));
+  await new Promise((resolve) => setTimeout(resolve, 300));
 
   // Теперь сбрасываем яблоко и игру
   apple.clearAppleFromField();
@@ -299,7 +300,10 @@ async function runAnimation() {
 
       // Обратная реакция: начинаем обратное окрашивание, начиная с самого верхнего ряда
       let resetRowInterval = setInterval(() => {
-        resetRow(currentRow + 1);
+        if (currentRow >= 0 && currentRow < rows) {
+          resetRow(currentRow);
+        }
+
         currentRow++;
 
         if (currentRow === rows) {
@@ -309,4 +313,3 @@ async function runAnimation() {
     }
   }, 5);
 }
-
