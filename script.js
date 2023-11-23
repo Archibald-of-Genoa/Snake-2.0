@@ -125,8 +125,8 @@ class Snake {
 
     if (this.isEatingApple(apple.position)) {
       apple.clearAppleFromField();
-      apple.position = apple.generateApplePosition(); 
-      apple.appleRendering(); 
+      apple.position = apple.generateApplePosition();
+      apple.appleRendering();
     } else {
       if (this.body.length > 1) {
         const tail = this.body.pop();
@@ -247,30 +247,37 @@ setInterval(() => {
   snake.moving();
 }, 100);
 
-
-document.getElementById("resetBtn").addEventListener("click", handleResetClick);
-
 document.getElementById("resetBtn").addEventListener("click", handleResetClick);
 
 function handleResetClick() {
+  apple.clearAppleFromField();
+  snake.resetGame();
+
+
   const cells = document.querySelectorAll(".outerSquare");
 
   const rows = gameField.rows;
   const columns = gameField.columns;
 
   function colorRow(rowIndex) {
-    const currentRowIndexes = Array.from({ length: columns }, (_, index) => rowIndex * columns + index);
+    const currentRowIndexes = Array.from(
+      { length: columns },
+      (_, index) => rowIndex * columns + index
+    );
 
     currentRowIndexes.forEach((index) => {
-      cells[index].classList.add("coloringRow"); 
+      cells[index].classList.add("coloringRow");
     });
   }
 
   function resetRow(rowIndex) {
-    const currentRowIndexes = Array.from({ length: columns }, (_, index) => rowIndex * columns + index);
+    const currentRowIndexes = Array.from(
+      { length: columns },
+      (_, index) => rowIndex * columns + index
+    );
 
     currentRowIndexes.forEach((index) => {
-      cells[index].classList.remove("coloringRow"); 
+      cells[index].classList.remove("coloringRow");
     });
   }
 
@@ -293,10 +300,9 @@ function handleResetClick() {
           clearInterval(resetRowInterval);
 
           // После завершения обратного окрашивания, сброс игры
-          snake.resetGame();
         }
       }, 5);
     }
   }, 5);
-}
 
+}

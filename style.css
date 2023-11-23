@@ -106,6 +106,10 @@ body {
   z-index: 1;
 }
 
+#resetBtn:focus {
+  outline: none;
+}
+
 .snake, .snake * {
   background-color: #000;
 }
