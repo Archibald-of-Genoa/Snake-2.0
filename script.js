@@ -266,17 +266,37 @@ function handleResetClick() {
     });
   }
 
+  function resetRow(rowIndex) {
+    const currentRowIndexes = Array.from({ length: columns }, (_, index) => rowIndex * columns + index);
+
+    currentRowIndexes.forEach((index) => {
+      cells[index].classList.remove("coloringRow"); 
+    });
+  }
+
   let currentRow = rows - 1;
 
   const intervalId = setInterval(() => {
-
     colorRow(currentRow);
 
     currentRow--;
 
     if (currentRow < 0) {
-      clearInterval(intervalId); 
-      snake.resetGame(); 
+      clearInterval(intervalId);
+
+      // Обратная реакция: начинаем обратное окрашивание, начиная с самого верхнего ряда
+      let resetRowInterval = setInterval(() => {
+        resetRow(currentRow + 1);
+        currentRow++;
+
+        if (currentRow === rows) {
+          clearInterval(resetRowInterval);
+
+          // После завершения обратного окрашивания, сброс игры
+          snake.resetGame();
+        }
+      }, 5);
     }
-  }, 5); 
+  }, 5);
 }
+
