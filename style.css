@@ -1,4 +1,4 @@
-/* style.css */
+
 @import url("fonts/font.css");
 
 html {
@@ -121,9 +121,9 @@ body {
 }
 
 .bottomRow, .bottomRow * {
-  background-color: #000; /* Любой цвет, который вы хотите использовать */
+  background-color: #000; 
 }
 
 .coloringRow, .coloringRow * {
-  background-color: #000; /* Любой цвет, который вы хотите использовать */
+  background-color: #000; 
 }
